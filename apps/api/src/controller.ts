@@ -64,7 +64,7 @@ async function popBpm(req: Request, res: Response) {
     currentBpmRecords.push(record)
 
     console.log(
-      `Popped Hardware ID: ${record.id} BPM: ${record.bpm} Registered at ${record.timestamp.toLocaleString()}`
+      `Retrieved Hardware ID: ${record.id} BPM: ${record.bpm} Registered at ${record.timestamp.toLocaleString()}`
     )
   }
 
