@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { findSong, randomSong } from "./songs/songsUtil"
 
 type BpmRecord = {
   id: string
@@ -76,11 +77,13 @@ async function popBpm(req: Request, res: Response) {
 
 async function getSong(req: Request, res: Response) {
   if (currentBpmRecords.length === 0) {
+    const randomizedSong = randomSong()
+
     return res.status(400).json({
       success: true,
       data: {
-        bpm: [60],
-        url: "insert url here",
+        bpm: [randomizedSong.BPM],
+        song: randomizedSong,
       },
     })
   }
@@ -91,7 +94,7 @@ async function getSong(req: Request, res: Response) {
     success: true,
     data: {
       bpm: currentBpmRecords.map((record) => record.bpm),
-      url: avgBpm,
+      song: findSong(avgBpm),
     },
   })
 }
