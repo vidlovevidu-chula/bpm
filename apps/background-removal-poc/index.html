@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Background Removal</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+  </head>
+  <body style="background: black">
+    <video autoplay></video>
+    <video
+      style="display: none"
+      autoplay
+      id="video"
+      src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      crossorigin="anonymous"
+    ></video>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
