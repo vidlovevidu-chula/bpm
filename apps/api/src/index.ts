@@ -1,25 +1,25 @@
-import express, { Request, Response } from "express"
-import { registerBpm, getQueue, popBpm, getSong } from "./controller"
-import bodyParser from "body-parser"
+import express, { Request, Response } from "express";
+import { registerBpm, getQueue, popBpm, getSong } from "./controller";
+import bodyParser from "body-parser";
+import cors from "cors";
+const app = express();
 
-const app = express()
-
-app.use(bodyParser.json())
-
+app.use(bodyParser.json());
+app.use(cors());
 app.get("/", (req: Request, res: Response) => {
   res.json({
     message: "Server is running",
-  })
-})
+  });
+});
 
-app.get("/register/:id", registerBpm)
+app.get("/register/:id", registerBpm);
 
-app.get("/queue", getQueue)
+app.get("/queue", getQueue);
 
-app.get("/display", getSong)
+app.get("/display", getSong);
 
-app.post("/retrieve", popBpm)
+app.post("/retrieve", popBpm);
 
 app.listen(4000, () => {
-  console.log("Listening on port 4000")
-})
+  console.log("Listening on port 4000");
+});

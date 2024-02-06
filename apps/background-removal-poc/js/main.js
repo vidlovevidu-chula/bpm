@@ -1,3 +1,8 @@
+import {
+  FaceDetector,
+  FilesetResolver,
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";
+
 const videoEl = document.querySelector("video");
 
 const width = 1000;
@@ -9,6 +14,18 @@ const canvas = new OffscreenCanvas(width, height);
 const ctx = canvas.getContext("2d");
 
 const video = document.getElementById("video");
+const audio = document.getElementById("audio");
+
+const audioContext = new AudioContext();
+const track = audioContext.createMediaElementSource(audio);
+
+track.connect(audioContext.destination);
+
+let noFaceCount = 0;
+
+let videoBg = false;
+
+let faceDetector;
 
 navigator.mediaDevices
   .getUserMedia({
@@ -29,7 +46,20 @@ navigator.mediaDevices
     console.error("An error has ocurred:", err);
   });
 
-function background_removal(videoTrack) {
+async function background_removal(videoTrack) {
+  const vision = await FilesetResolver.forVisionTasks(
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+  );
+  faceDetector = await FaceDetector.createFromOptions(vision, {
+    baseOptions: {
+      modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite`,
+      // delegate: "GPU",
+      delegate: "CPU",
+    },
+    runningMode: "IMAGE",
+  });
+  console.log("Face detector loaded");
+
   const selfieSegmentation = new SelfieSegmentation({
     locateFile: (file) =>
       `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`,
@@ -50,6 +80,50 @@ function background_removal(videoTrack) {
       videoFrame.width = videoFrame.displayWidth;
       videoFrame.height = videoFrame.displayHeight;
       await selfieSegmentation.send({ image: videoFrame });
+      const detections = faceDetector.detect(videoFrame);
+
+      if (detections.detections.length == 0) {
+        noFaceCount++;
+      } else {
+        if (noFaceCount > 10) {
+          // call new
+          console.log("New face detected");
+          fetch("http://localhost:4000/retrieve", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              count: 1,
+            }),
+          })
+            .then((r) => r.json())
+            .then((res) => {
+              console.log("Retrieving new face", res);
+            });
+          fetch("http://localhost:4000/display")
+            .then((r) => r.json())
+            .then((res) => {
+              console.log("Displaying new face", res.data);
+              document.getElementsByClassName("bpm")[0].innerHTML =
+                res.data.bpm[0];
+              audio.src = `/songs/${res.data.song.id}.mp3`;
+
+              if (audioContext.state === "suspended") {
+                audioContext.resume();
+              }
+              audio.play();
+            });
+
+          video.src = "https://shattereddisk.github.io/rickroll/rickroll.mp4";
+
+          video.play();
+          video.muted = true;
+
+          videoBg = true;
+          noFaceCount = 0;
+        }
+      }
 
       const timestamp = videoFrame.timestamp;
       const newFrame = new VideoFrame(canvas, { timestamp });
@@ -75,8 +149,10 @@ function onResults(results) {
 
   ctx.globalCompositeOperation = "source-out";
 
-  const pat = ctx.createPattern(video, "no-repeat");
-  ctx.fillStyle = pat;
+  if (videoBg) {
+    const pat = ctx.createPattern(video, "no-repeat");
+    ctx.fillStyle = pat;
+  }
 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
