@@ -4,7 +4,7 @@ import { Howl } from "howler"
 
 export default function Home() {
   const sound = new Howl({
-    src: ["/songs/friend.m4a"],
+    src: ["/songs/1.mp3"],
     html5: true,
     volume: 0.5,
   })
