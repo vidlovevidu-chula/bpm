@@ -5,6 +5,8 @@ type Song = {
   name: string
   artist: string
   BPM: string
+  imgPath?: string
+  songPath?: string
 }
 
 const findSong = (bpm: number) => {
@@ -21,12 +23,21 @@ const findSong = (bpm: number) => {
       nearestSongs.push(song)
     }
   }
-
-  return nearestSongs[Math.floor(Math.random() * nearestSongs.length)]
+  const rand = Math.floor(Math.random() * nearestSongs.length)
+  return {
+    ...nearestSongs[rand],
+    imgPath: `/songs/${nearestSongs[rand].id}.jpg`,
+    songPath: `/songs/${nearestSongs[rand].id}.mp3`,
+  }
 }
 
 const randomSong = () => {
-  return songs[Math.floor(Math.random() * songs.length)]
+  const rand = Math.floor(Math.random() * songs.length)
+  return {
+    ...songs[rand],
+    imgPath: `/songs/${songs[rand].id}.jpg`,
+    songPath: `/songs/${songs[rand].id}.mp3`,
+  }
 }
 
 export { findSong, randomSong }
