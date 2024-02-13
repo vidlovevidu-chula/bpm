@@ -58,6 +58,7 @@ async function background_removal(videoTrack) {
     },
     runningMode: "IMAGE",
   });
+
   console.log("Face detector loaded");
 
   const selfieSegmentation = new SelfieSegmentation({
@@ -105,7 +106,7 @@ async function background_removal(videoTrack) {
             .then((r) => r.json())
             .then((res) => {
               console.log("Displaying new face", res.data);
-              document.getElementsByClassName("bpm")[0].innerHTML =
+              document.getElementsByClassName("bpm-display")[0].innerHTML =
                 res.data.bpm[0];
               audio.src = `/songs/${res.data.song.id}.mp3`;
 
@@ -115,7 +116,7 @@ async function background_removal(videoTrack) {
               audio.play();
             });
 
-          video.src = "https://shattereddisk.github.io/rickroll/rickroll.mp4";
+          video.src = "/img/bg.mp4";
 
           video.play();
           video.muted = true;
@@ -156,7 +157,6 @@ function onResults(results) {
 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Only overwrite missing pixels.
   ctx.globalCompositeOperation = "destination-atop";
   ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
 

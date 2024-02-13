@@ -2,10 +2,85 @@
   <head>
     <title>Background Removal</title>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <style>
+      body {
+        font-family: "MN Tomyam";
+      }
+      .cover {
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+      }
+      .display {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 90%;
+        z-index: 0;
+      }
+
+      .bpm-display {
+        position: absolute;
+        right: 170px;
+        font-size: 24px;
+        bottom: 80px;
+        z-index: 2;
+        color: white;
+        font-size: 52px;
+        padding: 10px;
+      }
+      .song-cover-l {
+        position: absolute;
+        left: 67;
+        bottom: 292;
+        width: 241px;
+        height: 258px;
+        z-index: 2;
+        border-radius: 15px;
+      }
+      .song-cover-s {
+        position: absolute;
+        left: 43.75%;
+        bottom: 67%;
+        width: 88px;
+        height: 98px;
+        z-index: 2;
+        border-radius: 15px;
+      }
+
+      .song-name-l {
+        position: absolute;
+        left: 67;
+        bottom: 25%;
+        z-index: 2;
+        color: white;
+        font-size: 32px;
+        padding: 10px;
+      }
+
+      .song-name-s {
+        position: absolute;
+        left: 52%;
+        bottom: 66%;
+        z-index: 2;
+        color: white;
+        font-size: 36px;
+        padding: 10px;
+      }
+    </style>
   </head>
-  <body style="background: black">
-    <div class="bpm"></div>
-    <video autoplay></video>
+  <body style="background: black; position: relative">
+    <div class="bpm-display">199</div>
+    <div class="song-name-l">เพื่อนเล่น ไม่เล่นเพื่อน</div>
+    <img src="./songs/1.jpg" class="song-cover-l" />
+    <img src="./songs/1.jpg" class="song-cover-s" />
+    <div class="song-name-s">เพื่อนเล่น ไม่เล่นเพื่อน</div>
+
+    <img src="./img/BPM2.png" class="cover" />
+    <video autoplay class="display"></video>
     <video
       style="display: none"
       autoplay

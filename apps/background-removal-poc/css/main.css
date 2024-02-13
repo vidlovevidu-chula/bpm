@@ -4,10 +4,7 @@ body {
   padding: 0;
 }
 
-.bpm {
-  background-color: black;
-  position: absolute;
-  margin-top: 50px;
-  margin-left: 50%;
-  color: white;
+@font-face {
+  font-family: "MN Tomyam";
+  src: url("/css/MN Tomyam.ttf") format("truetype");
 }
