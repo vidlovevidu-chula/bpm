@@ -20,6 +20,7 @@ const songNameL = document.getElementsByClassName("song-name-l")[0]
 const songNameS = document.getElementsByClassName("song-name-s")[0]
 const songcoverL = document.getElementsByClassName("song-cover-l")[0]
 const songcoverS = document.getElementsByClassName("song-cover-s")[0]
+const songartistL = document.getElementsByClassName("song-artist-l")[0]
 
 const audioContext = new AudioContext()
 const track = audioContext.createMediaElementSource(audio)
@@ -90,7 +91,7 @@ async function background_removal(videoTrack) {
       if (detections.detections.length == 0) {
         noFaceCount++
       } else {
-        if (noFaceCount > 10) {
+        if (noFaceCount > 15) {
           // call new
           console.log("New face detected")
           fetch("http://localhost:4000/retrieve", {
@@ -120,12 +121,13 @@ async function background_removal(videoTrack) {
 
               bpmDisplay.textContent = ""
               for (const bpmVal of res.data.bpm) {
-                bpmDisplay.textContent += "BPM: " + bpmVal + "      "
+                bpmDisplay.textContent += "BPM: " + bpmVal + "  "
               }
               songNameL.textContent = res.data.song.name
               songNameS.textContent = res.data.song.name + " - " + res.data.song.artist
               songcoverL.src = `./songs/${res.data.song.id}.jpg`
               songcoverS.src = `./songs/${res.data.song.id}.jpg`
+              songartistL.textContent = res.data.song.artist
             })
 
           video.src = "./img/bg.mp4"
