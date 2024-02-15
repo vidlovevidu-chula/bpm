@@ -66,10 +66,10 @@ body {
   color: white;
   font-size: 2vw;
   padding: 10px;
-  max-width: 19vw;
+  max-width: 18vw;
   max-height: 1.25em;
   text-align: left;
-  /* white-space: nowrap; */
+  white-space: nowrap;
   overflow: hidden;
 }
 
@@ -82,7 +82,7 @@ body {
   font-size: 1.5vw;
   padding: 10px;
   overflow: hidden;
-  max-width: 19vw;
+  max-width: 18vw;
   white-space: nowrap;
 }
 
@@ -96,6 +96,23 @@ body {
   border-radius: 6%;
 }
 
+.next-song {
+  position: absolute;
+  left: 16.3vw;
+  bottom: 13.6vh;
+  z-index: 2;
+  aspect-ratio: 1/1;
+  width: 2.2vw;
+  border-radius: 20%;
+  border: none;
+  background-color: transparent;
+}
+.next-song:hover {
+  cursor: pointer;
+  border: #ff6a85 2px solid;
+  /* add shadow */
+  box-shadow: 0 0 10px 2px #ff6a85;
+}
 .scroll-text {
   /* animation properties */
   -moz-transform: translateX(0%);

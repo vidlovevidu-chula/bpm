@@ -1,6 +1,6 @@
 import { songs } from "./songs"
 
-type Song = {
+export type Song = {
   id: string
   name: string
   artist: string
