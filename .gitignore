@@ -38,4 +38,4 @@ yarn-error.log*
 *.pem
 
 apps/background-removal-poc/img/bg.mp4
-apps/background-removal-poc/songs
+# apps/background-removal-poc/songs
